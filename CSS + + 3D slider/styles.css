@@ -1,0 +1,70 @@
+body, html {
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+    font-family: Arial, sans-serif; /* Set a sans-serif font for text */
+    background-color: rgb(16,22,27); /* Set a dark background color */
+}
+
+main {
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    height: 100vh; /* Set height to full viewport */
+}
+
+.list {
+    display: flex; /* Use flexbox to display items in a row */
+    gap: 10px; /* Add space between items */
+    transform-style: preserve-3d; /* Enable 3D transforms */
+    transform: perspective(1000px); /* Apply perspective for 3D effect */
+}
+
+.item img {
+    height: 200px; /* Set height of images */
+    width: 120px; /* Set width of images */
+    object-fit: cover; /* Ensure images cover the container without distortion */
+}
+
+.list .item {
+    transition: 0.5s; /* Smooth transition for transforms and filters */
+    filter: brightness(0); /* Default: make images dark */
+}
+
+.list .item:hover {
+    filter: brightness(1); /* Brighten image on hover */
+    transform: translateZ(200px); /* Move image forward in 3D space on hover */
+}
+
+/* the + is used to refer to the next(RIGHT) item otherwise will refer to the child item [NO SYMBOL FOR LEFT] */
+/* The * is written instead of ".item" to point to the .item class next to the current hovered item */
+
+.list .item:hover + * {
+    filter: brightness(0.6); /* Dim the next image slightly */
+    transform: translateZ(150px) rotateY(40deg); /* Move and rotate the next image */
+}
+
+.list .item:hover + * + * {
+    filter: brightness(0.4); /* Dim the second-next image more */
+    transform: translateZ(70px) rotateY(20deg); /* Move and rotate the second-next image */
+}
+
+.list .item:hover + * + * + * {
+    filter: brightness(0.2); /* Dim the third-next image even more */
+    transform: translateZ(30px) rotateY(10deg); /* Move and rotate the third-next image */
+}
+
+/* ":has()" selector is used to find whether that the item to the right has hover or not [SINCE THERE IS NO SYMBOL FOR LEFT] */
+.list .item:has(+ *:hover) {
+    filter: brightness(0.6); /* Dim the previous image slightly if the next one is hovered */
+    transform: translateZ(150px) rotateY(-40deg); /* Move and rotate the previous image in the opposite direction */
+}
+
+.list .item:has(+ * + *:hover) {
+    filter: brightness(0.4); /* Dim the second-previous image more if the next one is hovered */
+    transform: translateZ(70px) rotateY(-20deg); /* Move and rotate the second-previous image in the opposite direction */
+}
+
+.list .item:has(+ * + * + *:hover) {
+    filter: brightness(0.2); /* Dim the third-previous image even more if the next one is hovered */
+    transform: translateZ(30px) rotateY(-10deg); /* Move and rotate the third-previous image in the opposite direction */
+}
